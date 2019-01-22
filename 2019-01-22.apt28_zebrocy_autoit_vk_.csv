@@ -1,0 +1,31 @@
+uuid,event_id,category,type,value,comment,to_ids,date,object_relation,attribute_tag,object_uuid,object_name,object_meta_category
+"5c463bd0-a7c8-4670-8a27-622168f8e8cf",108,"Payload delivery","md5","d6751b148461e0f863548be84020b879","APT28 Zebrocy Autoit Samples",1,1548106781,"","","","",""
+"5c463bd0-2174-48b9-bfe3-622168f8e8cf",108,"External analysis","url","http://194.187.249.126","APT28 Zebrocy Autoit C2 AS9009 M247, GB @m247.com",1,1548132590,"","","","",""
+"5c463c0a-0f30-4502-9cf3-79aa68f8e8cf",108,"Payload installation","md5","311f24eb2dda26c26f572c727a25503b","APT28 Zebrocy Autoit Samples",1,1548106762,"","","","",""
+"5c463c0a-de14-441b-8ec9-79aa68f8e8cf",108,"Payload installation","md5","7b1974e61795e84b6aacf33571320c2a","APT28 Zebrocy Autoit Samples",1,1548106762,"","","","",""
+"5c463c0a-eb38-4d29-9bf5-79aa68f8e8cf",108,"Payload installation","md5","c2e1f2cf18ca987ebb3e8f4c09a4ef7e","APT28 Zebrocy Autoit Samples",1,1548106762,"","","","",""
+"5c463c55-d144-426e-a69c-622168f8e8cf",108,"Network activity","url","http://80.255.6.5","APT28 Zebrocy C2 AS201011 NETZBETRIEB-GMBH, DE @core-backbone.com",1,1548132452,"","","","",""
+"5c463c55-ee08-441f-bd1a-622168f8e8cf",108,"Network activity","url","http://220.158.216.127","APT28 Zebrocy C2 AS49544 I3DNET, NL Qhoster",1,1548132475,"","","","",""
+"5c463c55-d868-4e4b-9235-622168f8e8cf",108,"Network activity","url","https://145.249.106.198/","APT28 Zebrocy C2  AS29073 QUASINETWORKS, NL @libertyvps.net",1,1548132418,"","","","",""
+"5c470084-1db8-4000-8d91-097e68f8e8cf",108,"Payload delivery","yara","import ""pe""
+
+rule apt28_zebrocy_autoit_loader {
+meta:
+    reference = ""Detects Autoit APT28 Zebrocy""
+    author = ""@VK_Intel""
+    date = ""2019-01-21""
+	type = ""experimental""
+	
+strings:	
+	// ""AU3!EA068"" header
+	$au3 = { 41 55 33 21 45 41 30 36 4D }
+	$autscr = ""/AutoIt3ExecuteLine"" fullword wide
+    $arch = ""<assemblyIdentity type=\""win32\"" name=\""Microsoft.Windows.Common-Controls\"" version=\""6.0.0.0\"" language=\""*\"" processorArchitec"" ascii
+
+  condition:
+	uint16(0) == 0x5a4d and $au3 and $autscr and $arch and filesize < 1500KB and pe.number_of_resources > 7 and
+    (for any i in (0..pe.number_of_resources - 1):
+      (pe.resources[i].type == pe.RESOURCE_TYPE_RCDATA))
+
+ }","Possible experimental APT28 Autoit Yara",0,1548157060,"","","","",""
+
