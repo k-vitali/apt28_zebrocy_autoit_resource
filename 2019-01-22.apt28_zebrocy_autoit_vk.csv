@@ -14,16 +14,16 @@ meta:
     reference = ""Detects Possible Autoit APT28 Zebrocy downloader""
     author = ""@VK_Intel""
     date = ""2019-01-21; Edited: 2019-01-22""
-    type = ""experimental""
+    type = ""experimental/not for hunting""
  
 strings: 
  // ""AU3!EA068"" header
  $au3 = { 41 55 33 21 45 41 30 36 4D }
  $autscr = ""/AutoIt3ExecuteLine"" fullword wide
  $arch = ""<assemblyIdentity type=\""win32\"" name=\""Microsoft.Windows.Common-Controls\"" version=\""6.0.0.0\"" language=\""*\"" processorArchitec"" ascii
-
-
-      $s0 = ""PROCESSGETSTATS"" fullword wide
+  $MS = ""MS "" ascii wide
+  $Microsoft = ""Microsoft Inc."" ascii wide 
+     $s0 = ""PROCESSGETSTATS"" fullword wide
       $s1 = ""SHELLEXECUTEWAIT"" fullword wide
       $s2 = ""WINGETPROCESS"" fullword wide
       $s3 = ""0Expected a \""=\"" operator in assignment statement.*Invalid keyword at the start of this line."" fullword wide
@@ -37,12 +37,11 @@ strings:
       $s11 = ""PROCESSEXISTS"" fullword wide
       $s12 = ""PROCESSORARCH"" fullword wide
       $s13 = ""AUTOITWINGETTITLE"" fullword wide
-
   condition:
-     uint16(0) == 0x5a4d and $au3 and $autscr and $arch and filesize < 1500KB 
+     uint16(0) == 0x5a4d and ($MS or $Microsoft) and $au3 and $autscr and $arch and filesize < 1500KB 
      and all of ($s*) and pe.number_of_resources > 7 and
     (for any i in (0..pe.number_of_resources - 1):
       (pe.resources[i].type == pe.RESOURCE_TYPE_RCDATA))
 
- }","Possible experimental APT28 Autoit Yara",0,1548171415,"","","","",""
+ }","Possible experimental APT28 Autoit Yara",0,1548178519,"","","","",""
 
