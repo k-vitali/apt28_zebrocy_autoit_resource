@@ -1,0 +1,16 @@
+# MISP export of IDS rules - optimized for suricata
+#
+# These NIDS rules contain some variables that need to exist in your configuration.
+# Make sure you have set:
+#
+# $HOME_NET	- Your internal network range
+# $EXTERNAL_NET - The network considered as outside
+# $SMTP_SERVERS - All your internal SMTP servers
+# $HTTP_PORTS   - The ports used to contain HTTP traffic (not required with suricata export)
+# 
+alert http $HOME_NET any -> 194.187.249.126 $HTTP_PORTS (msg: "MISP e108 [] Outgoing URL http|3a|//194.187.249.126"; flow:to_server,established; content:"194.187.249.126"; nocase; http_header; tag:session,600,seconds; classtype:trojan-activity; sid:4890271; rev:1; priority:2; reference:url,https://104.248.232.207/events/view/108;) 
+alert http $HOME_NET any -> 80.255.6.5 $HTTP_PORTS (msg: "MISP e108 [] Outgoing URL http|3a|//80.255.6.5"; flow:to_server,established; content:"80.255.6.5"; nocase; http_header; tag:session,600,seconds; classtype:trojan-activity; sid:4890311; rev:1; priority:2; reference:url,https://104.248.232.207/events/view/108;) 
+alert http $HOME_NET any -> 220.158.216.127 $HTTP_PORTS (msg: "MISP e108 [] Outgoing URL http|3a|//220.158.216.127"; flow:to_server,established; content:"220.158.216.127"; nocase; http_header; tag:session,600,seconds; classtype:trojan-activity; sid:4890321; rev:1; priority:2; reference:url,https://104.248.232.207/events/view/108;) 
+alert tcp $HOME_NET any -> 145.249.106.198 443 (msg: "MISP e108 [] Outgoing URL https|3a|//145.249.106.198/"; flow:to_server; app-layer-protocol:tls; tag:session,600,seconds; classtype:trojan-activity; sid:4890331; rev:1; priority:2; reference:url,https://104.248.232.207/events/view/108;) 
+alert http $HOME_NET any -> 185.236.203.53 $HTTP_PORTS (msg: "MISP e108 [] Outgoing URL http|3a|//185.236.203.53"; flow:to_server,established; content:"185.236.203.53"; nocase; http_header; tag:session,600,seconds; classtype:trojan-activity; sid:4890561; rev:1; priority:2; reference:url,https://104.248.232.207/events/view/108;) 
+# 

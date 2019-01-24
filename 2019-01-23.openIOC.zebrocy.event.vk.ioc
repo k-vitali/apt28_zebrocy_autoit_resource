@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ioc xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" id="5c463bd0-63bc-41f1-91dc-622168f8e8cf" last-modified="2019-01-21T00:00:00" xmlns="http://schemas.mandiant.com/2010/ioc">
+  <short_description>Event #108</short_description>
+  <description>2019-01-21: APT28 Autoit Zebrocy Progression (5c463bd0-63bc-41f1-91dc-622168f8e8cf)</description>
+  <keywords />
+  <authored_by>VK-Intel</authored_by>
+  <authored_date>2019-01-21T00:00:00</authored_date>
+  <links />
+  <definition>
+    <Indicator operator="OR" id="5c49643d-4984-4744-b73b-644d68f8e8cf">
+      <IndicatorItem id="5c463bd0-a7c8-4670-8a27-622168f8e8cf" condition="is">
+        <Context document="FileItem" search="FileItem/Md5sum" type="mir" />
+        <Content type="md5">d6751b148461e0f863548be84020b879</Content>
+      </IndicatorItem>
+      <IndicatorItem id="5c463c0a-0f30-4502-9cf3-79aa68f8e8cf" condition="is">
+        <Context document="FileItem" search="FileItem/Md5sum" type="mir" />
+        <Content type="md5">311f24eb2dda26c26f572c727a25503b</Content>
+      </IndicatorItem>
+      <IndicatorItem id="5c463c0a-de14-441b-8ec9-79aa68f8e8cf" condition="is">
+        <Context document="FileItem" search="FileItem/Md5sum" type="mir" />
+        <Content type="md5">7b1974e61795e84b6aacf33571320c2a</Content>
+      </IndicatorItem>
+      <IndicatorItem id="5c463c0a-eb38-4d29-9bf5-79aa68f8e8cf" condition="is">
+        <Context document="FileItem" search="FileItem/Md5sum" type="mir" />
+        <Content type="md5">c2e1f2cf18ca987ebb3e8f4c09a4ef7e</Content>
+      </IndicatorItem>
+      <IndicatorItem id="5c463c55-d144-426e-a69c-622168f8e8cf" condition="is">
+        <Context document="UrlHistoryItem" search="UrlHistoryItem/URL" type="mir" />
+        <Content type="string">http://80.255.6.5</Content>
+      </IndicatorItem>
+      <IndicatorItem id="5c463c55-ee08-441f-bd1a-622168f8e8cf" condition="is">
+        <Context document="UrlHistoryItem" search="UrlHistoryItem/URL" type="mir" />
+        <Content type="string">http://220.158.216.127</Content>
+      </IndicatorItem>
+      <IndicatorItem id="5c463c55-d868-4e4b-9235-622168f8e8cf" condition="is">
+        <Context document="UrlHistoryItem" search="UrlHistoryItem/URL" type="mir" />
+        <Content type="string">https://145.249.106.198/</Content>
+      </IndicatorItem>
+      <IndicatorItem id="5c49639e-7110-4d64-8050-631968f8e8cf" condition="is">
+        <Context document="FileItem" search="FileItem/Md5sum" type="mir" />
+        <Content type="md5">ec57bb4980ea0190f4ad05d0ea9c9447</Content>
+      </IndicatorItem>
+      <IndicatorItem id="5c4963d0-3650-436c-b82e-631868f8e8cf" condition="is">
+        <Context document="UrlHistoryItem" search="UrlHistoryItem/URL" type="mir" />
+        <Content type="string">http://185.236.203.53</Content>
+      </IndicatorItem>
+    </Indicator>
+  </definition>
+</ioc>
